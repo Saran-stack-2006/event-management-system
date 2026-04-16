@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EventPro - Event Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6f42c1;
+      --secondary: #0dcaf0;
+      --dark: #1f1f2e;
+      --light-bg: #f5f7fb;
+      --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --gradient: linear-gradient(135deg, #6f42c1, #0dcaf0);
+    }
+
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: var(--light-bg);
+      color: #222;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      background: rgba(31, 31, 46, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar-brand span {
+      color: var(--secondary);
+    }
+
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.8)),
+        url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      color: white;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      max-width: 700px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 8px 16px;
+      border-radius: 50px;
+      margin-bottom: 18px;
+      font-size: 0.9rem;
+    }
+
+    .btn-gradient {
+      background: var(--gradient);
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 50px;
+      transition: 0.3s ease;
+      box-shadow: 0 10px 20px rgba(111, 66, 193, 0.25);
+    }
+
+    .btn-gradient:hover {
+      transform: translateY(-2px);
+      color: white;
+    }
+
+    .section-title {
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .section-subtitle {
+      color: #6c757d;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    .feature-card,
+    .event-card,
+    .stat-card,
+    .schedule-card,
+    .contact-card {
+      border: none;
+      border-radius: 22px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      overflow: hidden;
+      background: white;
+    }
+
+    .feature-card:hover,
+    .event-card:hover,
+    .schedule-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .feature-icon {
+      width: 65px;
+      height: 65px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      background: rgba(13, 202, 240, 0.15);
+      font-size: 28px;
+      margin-bottom: 18px;
+    }
+
+    .event-img {
+      height: 220px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .tag {
+      font-size: 0.8rem;
+      border-radius: 50px;
+      padding: 6px 12px;
+      display: inline-block;
+      background: rgba(111, 66, 193, 0.12);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .stat-card {
+      padding: 28px;
+      background: var(--gradient);
+      color: white;
+    }
+
+    .stat-card h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .schedule-item {
+      border-left: 4px solid var(--primary);
+      padding: 14px 16px;
+      background: #f8f9ff;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+
+    .gallery-box {
+      height: 240px;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+    }
+
+    .gallery-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.4s ease;
+    }
+
+    .gallery-box:hover img {
+      transform: scale(1.07);
+    }
+
+    .form-control, .form-select {
+      border-radius: 14px;
+      padding: 12px 14px;
+      border: 1px solid #dee2e6;
+    }
+
+    .contact-card,
+    .booking-card {
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+      background: white;
+    }
+
+    .footer {
+      background: #111827;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .footer a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+    }
+
+    .floating-btn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--gradient);
+      color: white;
+      font-size: 24px;
+      box-shadow: var(--card-shadow);
+      z-index: 999;
+      text-decoration: none;
+    }
+
+    .event-meta {
+      font-size: 0.92rem;
+      color: #6c757d;
+    }
+
+    .search-box {
+      background: white;
+      padding: 24px;
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+      margin-top: -70px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .custom-badge {
+      background: rgba(13, 202, 240, 0.15);
+      color: #0a97b9;
+      border-radius: 50px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 2.4rem;
+      }
+      .search-box {
+        margin-top: 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .btn-gradient {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#home">Event<span>Pro</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="#events">Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="#schedule">Schedule</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item ms-lg-2"><a class="btn btn-gradient" href="#booking">Book Now</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <div class="hero-badge">Smart Frontend Event Management Website</div>
+          <h1>Plan, Manage & Celebrate Events with Style</h1>
+          <p class="mt-3 mb-4">A modern frontend-only event management project built using HTML, CSS, JavaScript, and Bootstrap. Manage bookings, explore events, view schedules, and showcase services in one responsive design.</p>
+          <div class="d-flex flex-wrap gap-3">
+            <a href="#events" class="btn btn-gradient">Explore Events</a>
+            <a href="#booking" class="btn btn-outline-light rounded-pill px-4 py-3">Make Booking</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="search-box">
+      <div class="row g-3 align-items-end">
+        <div class="col-lg-4 col-md-6">
+          <label class="form-label fw-semibold">Search Event</label>
+          <input type="text" class="form-control" id="searchInput" placeholder="Wedding, music, conference..." />
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <label class="form-label fw-semibold">Category</label>
+          <select class="form-select" id="categoryFilter">
+            <option value="all">All Categories</option>
+            <option value="Wedding">Wedding</option>
+            <option value="Corporate">Corporate</option>
+            <option value="Birthday">Birthday</option>
+            <option value="Concert">Concert</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <label class="form-label fw-semibold">Location</label>
+          <select class="form-select" id="locationFilter">
+            <option value="all">All Locations</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Coimbatore">Coimbatore</option>
+            <option value="Hyderabad">Hyderabad</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-6">
+          <button class="btn btn-gradient w-100" onclick="filterEvents()">Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="py-5" id="features">
+    <div class="container py-4">
+      <div class="text-center mb-5">
+        <h2 class="section-title">Core Features</h2>
+        <p class="section-subtitle mt-2">This event management frontend project includes attractive sections, booking form, event search, pricing display, gallery, and client-friendly design.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card p-4 h-100">
+            <div class="feature-icon">🎉</div>
+            <h5 class="fw-bold">Event Planning</h5>
+            <p class="text-muted mb-0">Create stylish event listings for weddings, conferences, concerts, birthdays, and more.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card p-4 h-100">
+            <div class="feature-icon">📅</div>
+            <h5 class="fw-bold">Smart Scheduling</h5>
+            <p class="text-muted mb-0">Show timeline details, activity slots, and daily event agenda with a clean UI.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card p-4 h-100">
+            <div class="feature-icon">📝</div>
+            <h5 class="fw-bold">Booking Form</h5>
+            <p class="text-muted mb-0">Visitors can submit booking requests with event type, date, guests, and budget.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card p-4 h-100">
+            <div class="feature-icon">📍</div>
+            <h5 class="fw-bold">Location Based</h5>
+            <p class="text-muted mb-0">Filter events by category and location for a user-friendly browsing experience.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-5" id="stats">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="stat-card text-center">
+            <h2 id="count1">250+</h2>
+            <p class="mb-0">Events Organized</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat-card text-center">
+            <h2 id="count2">120+</h2>
+            <p class="mb-0">Happy Clients</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat-card text-center">
+            <h2 id="count3">50+</h2>
+            <p class="mb-0">Event Venues</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat-card text-center">
+            <h2 id="count4">24/7</h2>
+            <p class="mb-0">Support Available</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5" id="events">
+    <div class="container py-4">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 gap-3">
+        <div>
+          <span class="custom-badge">Popular Events</span>
+          <h2 class="section-title mt-2 mb-1">Trending Event Packages</h2>
+          <p class="text-muted mb-0">Choose the perfect event style for your special day.</p>
+        </div>
+        <div>
+          <button class="btn btn-outline-dark rounded-pill px-4" onclick="resetFilters()">Reset Filter</button>
+        </div>
+      </div>
+
+      <div class="row g-4" id="eventContainer">
+        <div class="col-md-6 col-lg-4 event-item" data-category="Wedding" data-location="Chennai" data-name="Royal Wedding">
+          <div class="event-card h-100">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80" class="event-img" alt="Wedding Event">
+            <div class="p-4">
+              <span class="tag">Wedding</span>
+              <h5 class="fw-bold mt-3">Royal Wedding Setup</h5>
+              <p class="event-meta mb-2">📍 Chennai &nbsp; | &nbsp; 👥 500 Guests</p>
+              <p class="text-muted">Elegant floral decoration, stage design, dining layout, live music, and photography arrangements.</p>
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <strong>₹1,20,000</strong>
+                <button class="btn btn-sm btn-gradient" onclick="selectPackage('Royal Wedding Setup')">Book</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 event-item" data-category="Corporate" data-location="Bangalore" data-name="Business Conference">
+          <div class="event-card h-100">
+            <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80" class="event-img" alt="Corporate Event">
+            <div class="p-4">
+              <span class="tag">Corporate</span>
+              <h5 class="fw-bold mt-3">Business Conference</h5>
+              <p class="event-meta mb-2">📍 Bangalore &nbsp; | &nbsp; 👥 300 Guests</p>
+              <p class="text-muted">Professional setup with LED display, stage lights, seminar seating, registration desk, and audio systems.</p>
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <strong>₹90,000</strong>
+                <button class="btn btn-sm btn-gradient" onclick="selectPackage('Business Conference')">Book</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 event-item" data-category="Birthday" data-location="Coimbatore" data-name="Kids Birthday Party">
+          <div class="event-card h-100">
+            <img src="https://images.unsplash.com/photo-1464349153735-7db50ed83c84?auto=format&fit=crop&w=1200&q=80" class="event-img" alt="Birthday Event">
+            <div class="p-4">
+              <span class="tag">Birthday</span>
+              <h5 class="fw-bold mt-3">Kids Birthday Party</h5>
+              <p class="event-meta mb-2">📍 Coimbatore &nbsp; | &nbsp; 👥 100 Guests</p>
+              <p class="text-muted">Fun balloon theme, cake table, game zone, cartoon mascot, and colorful return gift setup.</p>
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <strong>₹35,000</strong>
+                <button class="btn btn-sm btn-gradient" onclick="selectPackage('Kids Birthday Party')">Book</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 event-item" data-category="Concert" data-location="Hyderabad" data-name="Music Night Show">
+          <div class="event-card h-100">
+            <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80" class="event-img" alt="Concert Event">
+            <div class="p-4">
+              <span class="tag">Concert</span>
+              <h5 class="fw-bold mt-3">Music Night Show</h5>
+              <p class="event-meta mb-2">📍 Hyderabad &nbsp; | &nbsp; 👥 800 Guests</p>
+              <p class="text-muted">Large-scale sound setup, artist stage, LED visuals, ticket counters, and security arrangement.</p>
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <strong>₹1,80,000</strong>
+                <button class="btn btn-sm btn-gradient" onclick="selectPackage('Music Night Show')">Book</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 event-item" data-category="Wedding" data-location="Bangalore" data-name="Engagement Ceremony">
+          <div class="event-card h-100">
+            <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80" class="event-img" alt="Engagement Event">
+            <div class="p-4">
+              <span class="tag">Wedding</span>
+              <h5 class="fw-bold mt-3">Engagement Ceremony</h5>
+              <p class="event-meta mb-2">📍 Bangalore &nbsp; | &nbsp; 👥 200 Guests</p>
+              <p class="text-muted">Premium engagement decor, elegant stage, family seating, floral entry, and photography corner.</p>
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <strong>₹65,000</strong>
+                <button class="btn btn-sm btn-gradient" onclick="selectPackage('Engagement Ceremony')">Book</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 event-item" data-category="Corporate" data-location="Chennai" data-name="Product Launch Expo">
+          <div class="event-card h-100">
+            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80" class="event-img" alt="Launch Event">
+            <div class="p-4">
+              <span class="tag">Corporate</span>
+              <h5 class="fw-bold mt-3">Product Launch Expo</h5>
+              <p class="event-meta mb-2">📍 Chennai &nbsp; | &nbsp; 👥 450 Guests</p>
+              <p class="text-muted">Branding walls, launch stage, product demo counters, presenter support, and media-ready layout.</p>
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <strong>₹1,10,000</strong>
+                <button class="btn btn-sm btn-gradient" onclick="selectPackage('Product Launch Expo')">Book</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="noResult" class="text-center mt-4 d-none">
+        <p class="text-muted fw-semibold">No events found for your search.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 bg-white" id="schedule">
+    <div class="container py-4">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-5">
+          <span class="custom-badge">Event Timeline</span>
+          <h2 class="section-title mt-2">Sample Event Schedule</h2>
+          <p class="text-muted">Display your event timing and agenda professionally. This section is useful for conferences, marriage functions, celebrations, and live shows.</p>
+        </div>
+        <div class="col-lg-7">
+          <div class="schedule-card p-4">
+            <div class="schedule-item">
+              <strong>09:00 AM - Registration & Welcome</strong>
+              <div class="text-muted small mt-1">Guest check-in, welcome drink, and seating support.</div>
+            </div>
+            <div class="schedule-item">
+              <strong>10:30 AM - Opening Ceremony</strong>
+              <div class="text-muted small mt-1">Main stage introduction, lighting ceremony, and keynote speech.</div>
+            </div>
+            <div class="schedule-item">
+              <strong>01:00 PM - Lunch Break</strong>
+              <div class="text-muted small mt-1">Buffet service with guest assistance and lounge setup.</div>
+            </div>
+            <div class="schedule-item mb-0">
+              <strong>03:00 PM - Entertainment / Networking</strong>
+              <div class="text-muted small mt-1">Music performance, networking session, photo booth, and live activities.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5" id="gallery">
+    <div class="container py-4">
+      <div class="text-center mb-5">
+        <span class="custom-badge">Our Gallery</span>
+        <h2 class="section-title mt-2">Memories We Create</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="gallery-box"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1000&q=80" alt="gallery"></div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="gallery-box"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1000&q=80" alt="gallery"></div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="gallery-box"><img src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=1000&q=80" alt="gallery"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 bg-white" id="booking">
+    <div class="container py-4">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-5">
+          <span class="custom-badge">Booking Form</span>
+          <h2 class="section-title mt-2">Book Your Event Now</h2>
+          <p class="text-muted">Users can submit frontend booking requests. JavaScript validates the form and displays a success message instantly.</p>
+          <ul class="list-unstyled mt-4 text-muted">
+            <li class="mb-2">✔ Wedding and reception booking</li>
+            <li class="mb-2">✔ Corporate and seminar events</li>
+            <li class="mb-2">✔ Birthday and private celebrations</li>
+            <li class="mb-2">✔ Music show and public event planning</li>
+          </ul>
+        </div>
+        <div class="col-lg-7">
+          <div class="booking-card p-4 p-md-5">
+            <form id="bookingForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Full Name</label>
+                  <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Phone Number</label>
+                  <input type="tel" class="form-control" id="phone" placeholder="Enter mobile number" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Email Address</label>
+                  <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Event Type</label>
+                  <select class="form-select" id="eventType" required>
+                    <option value="">Choose event</option>
+                    <option>Wedding</option>
+                    <option>Corporate</option>
+                    <option>Birthday</option>
+                    <option>Concert</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Event Date</label>
+                  <input type="date" class="form-control" id="eventDate" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Guests Count</label>
+                  <input type="number" class="form-control" id="guests" placeholder="Expected guests" required>
+                </div>
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Selected Package</label>
+                  <input type="text" class="form-control" id="selectedPackage" placeholder="Choose from events section" readonly>
+                </div>
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Additional Message</label>
+                  <textarea class="form-control" id="message" rows="4" placeholder="Tell us your requirements..."></textarea>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-gradient w-100">Submit Booking</button>
+                </div>
+              </div>
+            </form>
+            <div class="alert alert-success mt-4 d-none" id="successMsg">Booking submitted successfully! Our team will contact you soon.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5" id="contact">
+    <div class="container py-4">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="contact-card p-4 h-100">
+            <h4 class="fw-bold mb-3">Contact Info</h4>
+            <p class="text-muted">Reach our event team for bookings, customized packages, and support.</p>
+            <p class="mb-2"><strong>📞 Phone:</strong> +91 98765 43210</p>
+            <p class="mb-2"><strong>📧 Email:</strong> eventpro@email.com</p>
+            <p class="mb-0"><strong>📍 Address:</strong> Coimbatore, Tamil Nadu</p>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="contact-card p-4 h-100">
+            <h4 class="fw-bold mb-3">Why Choose This Project?</h4>
+            <div class="row g-3 text-muted">
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded-4 h-100">Responsive design for desktop, tablet, and mobile screens.</div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded-4 h-100">Bootstrap layout with modern UI and smooth interactions.</div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded-4 h-100">JavaScript event filtering, form validation, and booking handling.</div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded-4 h-100">Perfect for mini project, college project, or portfolio showcase.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer py-4">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <p class="mb-0">© 2026 EventPro. All Rights Reserved.</p>
+      <div class="d-flex gap-3">
+        <a href="#home">Home</a>
+        <a href="#events">Events</a>
+        <a href="#booking">Booking</a>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#home" class="floating-btn">↑</a>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function filterEvents() {
+      const searchValue = document.getElementById('searchInput').value.toLowerCase();
+      const categoryValue = document.getElementById('categoryFilter').value;
+      const locationValue = document.getElementById('locationFilter').value;
+      const events = document.querySelectorAll('.event-item');
+      let visibleCount = 0;
+
+      events.forEach(event => {
+        const category = event.getAttribute('data-category');
+        const location = event.getAttribute('data-location');
+        const name = event.getAttribute('data-name').toLowerCase();
+
+        const matchSearch = name.includes(searchValue);
+        const matchCategory = categoryValue === 'all' || category === categoryValue;
+        const matchLocation = locationValue === 'all' || location === locationValue;
+
+        if (matchSearch && matchCategory && matchLocation) {
+          event.style.display = 'block';
+          visibleCount++;
+        } else {
+          event.style.display = 'none';
+        }
+      });
+
+      document.getElementById('noResult').classList.toggle('d-none', visibleCount !== 0);
+    }
+
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('categoryFilter').value = 'all';
+      document.getElementById('locationFilter').value = 'all';
+      filterEvents();
+    }
+
+    function selectPackage(packageName) {
+      document.getElementById('selectedPackage').value = packageName;
+      document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const eventType = document.getElementById('eventType').value;
+      const eventDate = document.getElementById('eventDate').value;
+      const guests = document.getElementById('guests').value.trim();
+
+      if (!name || !phone || !email || !eventType || !eventDate || !guests) {
+        alert('Please fill all required fields.');
+        return;
+      }
+
+      const today = new Date().toISOString().split('T')[0];
+      if (eventDate < today) {
+        alert('Please select a future date for the event.');
+        return;
+      }
+
+      document.getElementById('successMsg').classList.remove('d-none');
+      this.reset();
+      document.getElementById('selectedPackage').value = '';
+
+      setTimeout(() => {
+        document.getElementById('successMsg').classList.add('d-none');
+      }, 4000);
+    });
+
+    document.getElementById('searchInput').addEventListener('input', filterEvents);
+    document.getElementById('categoryFilter').addEventListener('change', filterEvents);
+    document.getElementById('locationFilter').addEventListener('change', filterEvents);
+  </script>
+</body>
+</html>
